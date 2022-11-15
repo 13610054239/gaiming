@@ -1,0 +1,33 @@
+#include <sourcemod>
+
+char g_sDefultName[64];
+new Handle:g_hHostName = INVALID_HANDLE;
+
+public Plugin:myinfo =
+{
+	name = "Hostname change",
+	description = "服务器中文名字",
+	author = "Mengsk",
+	version = "0.2",
+	url = ""
+}
+
+public void OnPluginStart()
+{
+												//此处改为你的服务器名
+	Format(g_sDefultName, sizeof(g_sDefultName), "默认服务器名");
+
+	g_hHostName = FindConVar("hostname");
+	HookConVarChange(g_hHostName, OnConVarChange)
+	HostNameChange();
+}
+
+public OnConVarChange(Handle:convar, const String:oldValue[], const String:newValue[])
+{
+	HostNameChange();
+}
+
+HostNameChange()
+{
+	SetConVarString(g_hHostName, g_sDefultName, false, false);
+} 
